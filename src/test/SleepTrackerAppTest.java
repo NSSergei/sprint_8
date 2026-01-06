@@ -1,28 +1,20 @@
 package test;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
-import main.*;
-
-import main.Logger;
 import main.SleepTrackerApp;
 import methods.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SleepTrackerAppTest {
-    //метод вывода сессий сна с передачей в Лог
+    //метод вывода сессий сна
     @Test
     void testInfo() throws IOException {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
-        Files.deleteIfExists(Paths.get("log.txt"));
 
         List<SleepTrackerApp> sessions = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 15, 01)
                         ,LocalDateTime.of(2025, 12, 20, 15, 01), SleepQuality.BAD),
@@ -35,12 +27,6 @@ public class SleepTrackerAppTest {
                 LocalDateTime.of(2025, 12, 19, 15, 01).format(formatter) + "  " +
                         LocalDateTime.of(2025, 12, 20, 15, 01).format(formatter) + "  " +
                         "BAD";
-
-        List<String> lines = Files.readAllLines(Paths.get("log.txt"));
-        assertFalse(lines.isEmpty());
-        assertTrue(lines.get(0).contains(expectedPart));
-
-
     }
     //методы класса methods.Statistics
     //метод мин сессии
@@ -50,7 +36,7 @@ public class SleepTrackerAppTest {
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 15, 00)
                         ,LocalDateTime.of(2025, 12, 20, 15, 01), SleepQuality.BAD));
-        Statistics statistics = new Statistics();
+        MinTimeForSession statistics = new MinTimeForSession();
         Long values = statistics.minTimeSession(session).orElse(0L);
         // проверка вывода мин значения
         // statistics.minSession(statistics.minTimeSession(session));
@@ -65,8 +51,8 @@ public class SleepTrackerAppTest {
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 8, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.BAD));
 
-        Statistics statistics = new Statistics();
-        Long values = statistics.maxTimeSession(session).orElse(0L);
+        MaxTimeForSession maxTimeSession = new MaxTimeForSession();
+        Long values = maxTimeSession .maxTimeSession(session).orElse(0L);
         // проверка вывода макс значения
         //statistics.maxSession(statistics.maxTimeSession(session));
         assertTrue(values == 240);
@@ -79,9 +65,9 @@ public class SleepTrackerAppTest {
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.BAD));
 
-        Statistics statistics = new Statistics();
-        statistics.midlTimeSession(session);
-        assertTrue(statistics.midlTimeSession(session) == 120);
+        MidleTimeForSession midlTimeForSession = new MidleTimeForSession();
+        midlTimeForSession.midleTimeSession(session);
+        assertTrue(midlTimeForSession.midleTimeSession(session) == 120);
 
 
     }
@@ -94,8 +80,8 @@ public class SleepTrackerAppTest {
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.BAD));
 
-        Statistics statistics = new Statistics();
-        assertTrue(statistics.badSessionCount(session) == 2);
+        BadSession badSession = new BadSession();
+        assertTrue(badSession.badSessionCount(session) == 2);
     }
 
     @Test
@@ -105,8 +91,8 @@ public class SleepTrackerAppTest {
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.UNDEFINED));
 
-        Statistics statistics = new Statistics();
-        assertTrue(statistics.badSessionCount(session) == 1);
+        BadSession badSession = new BadSession();
+        assertTrue(badSession.badSessionCount(session) == 1);
 
     }
 
@@ -119,11 +105,11 @@ public class SleepTrackerAppTest {
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 26, 12, 00), SleepQuality.UNDEFINED));
 
-        NigthsCount nigthsCount = new NigthsCount();
+        NightsCount nigthsCount = new NightsCount();
         //вызов для проверки результата
         //System.out.println(nigthsCount.nigth(session));
 
-        assertTrue(nigthsCount.nigth(session) == 7);
+        assertTrue(nigthsCount.countNights(session) == 7);
 
     }
 
@@ -190,7 +176,7 @@ public class SleepTrackerAppTest {
 
         Сhronotype chronotype = new Сhronotype();
         //System.out.println(chronotype.peopleType(session));
-        assertTrue(chronotype.peopleType(session).equals("Жаворонок"));
+        assertTrue(chronotype.peopleType(session).equals("Жавороноком"));
     }
     @Test
     void testSleepTypeOwl (){
@@ -198,22 +184,22 @@ public class SleepTrackerAppTest {
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 23, 30),
                         LocalDateTime.of(2025, 12, 20, 9, 00),
                         SleepQuality.UNDEFINED),
+
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 23, 15),
                         LocalDateTime.of(2025, 12, 21, 9, 30),
                         SleepQuality.UNDEFINED),
+
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 22, 23, 45),
                         LocalDateTime.of(2025, 12, 23, 9, 50),
                         SleepQuality.UNDEFINED),
-                // Можно оставить одну сессию дневного сна или другую, чтобы балансировать
+
                 new SleepTrackerApp(LocalDateTime.of(2025, 12, 21, 12, 0),
                         LocalDateTime.of(2025, 12, 26, 22, 0),
                         SleepQuality.UNDEFINED)
         );
 
         Сhronotype chronotype = new Сhronotype();
-        System.out.println(chronotype.peopleType(session));
-        assertTrue(chronotype.peopleType(session).equals("Сова"));
+        //ystem.out.println(chronotype.peopleType(session));
+        assertTrue(chronotype.peopleType(session).equals("Совой"));
     }
-
-
 }

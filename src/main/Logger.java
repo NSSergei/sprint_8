@@ -15,5 +15,4 @@ public class Logger {
             e.printStackTrace();
         }
     }
-
 }

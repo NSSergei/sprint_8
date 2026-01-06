@@ -1,6 +1,7 @@
 package methods;
 
 
+import main.SleepAnalysisResult;
 import main.SleepTrackerApp;
 
 import java.time.LocalDateTime;
@@ -8,20 +9,26 @@ import java.time.LocalTime;
 
 import java.util.Map;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Сhronotype {
+public class Сhronotype implements Function<List<SleepTrackerApp>, SleepAnalysisResult> {
+    @Override
+    public SleepAnalysisResult apply(List<SleepTrackerApp> lst){
+        String chronoType = peopleType(lst);
+        return new SleepAnalysisResult<>("Вы являетесь",chronoType);
+    }
 
     private String getSleepType(LocalDateTime start, LocalDateTime end) {
         LocalTime startTime = start.toLocalTime();
         LocalTime endTime = end.toLocalTime();
 
         if (startTime.isAfter(LocalTime.of(23, 0)) && endTime.isAfter(LocalTime.of(9,00))) {
-            return "Сова";
+            return "Совой";
         } else if (startTime.isBefore(LocalTime.of(22, 0)) && endTime.isBefore(LocalTime.of(7,00))){
-            return "Жаворонок";
+            return "Жавороноком";
         } else {
-            return "Голубь";
+            return "Голубем";
         }
     }
 
