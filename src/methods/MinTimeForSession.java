@@ -1,20 +1,20 @@
 package methods;
 import main.SleepAnalysisResult;
-import main.SleepTrackerApp;
+import main.SleepTrackerRecord;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class MinTimeForSession implements Function<List<SleepTrackerApp>, SleepAnalysisResult> {
+public class MinTimeForSession implements Function<List<SleepTrackerRecord>, SleepAnalysisResult> {
     @Override
-    public  SleepAnalysisResult apply(List<SleepTrackerApp> lst){
+    public  SleepAnalysisResult apply(List<SleepTrackerRecord> lst){
         long mimTime = minTimeSession(lst).orElse(0L);
         return new SleepAnalysisResult<>("Минимальная продолжительность сесии", mimTime);
     }
     //минимальная продолжительность сессии (в минутах);
-    public Optional<Long> minTimeSession(List<SleepTrackerApp> sessions) {
+    public Optional<Long> minTimeSession(List<SleepTrackerRecord> sessions) {
         if (sessions == null || sessions.isEmpty()){
             return Optional.of(0L);
         }

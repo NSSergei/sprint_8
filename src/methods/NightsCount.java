@@ -1,7 +1,7 @@
 package methods;
 
 import main.SleepAnalysisResult;
-import main.SleepTrackerApp;
+import main.SleepTrackerRecord;
 
 import java.util.function.Function;
 import java.time.LocalDateTime;
@@ -10,15 +10,15 @@ import java.time.Duration;
 
 
 
-public class NightsCount implements Function<List<SleepTrackerApp>, SleepAnalysisResult>{
+public class NightsCount implements Function<List<SleepTrackerRecord>, SleepAnalysisResult>{
     //метод подсчета ночей
     @Override
-    public SleepAnalysisResult apply(List<SleepTrackerApp> list) {
+    public SleepAnalysisResult apply(List<SleepTrackerRecord> list) {
         long nightsCount = countNights(list);
         return new SleepAnalysisResult<>("Количество ночей", nightsCount);
     }
 
-    public Long countNights(List<SleepTrackerApp> lst){
+    public Long countNights(List<SleepTrackerRecord> lst){
         if (lst == null || lst.isEmpty()) {
             return 0L;
         }

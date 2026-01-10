@@ -2,7 +2,7 @@ package methods;
 
 
 import main.SleepAnalysisResult;
-import main.SleepTrackerApp;
+import main.SleepTrackerRecord;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Сhronotype implements Function<List<SleepTrackerApp>, SleepAnalysisResult> {
+public class Сhronotype implements Function<List<SleepTrackerRecord>, SleepAnalysisResult> {
     @Override
-    public SleepAnalysisResult apply(List<SleepTrackerApp> lst){
+    public SleepAnalysisResult apply(List<SleepTrackerRecord> lst){
         String chronoType = peopleType(lst);
         return new SleepAnalysisResult<>("Вы являетесь",chronoType);
     }
@@ -33,7 +33,7 @@ public class Сhronotype implements Function<List<SleepTrackerApp>, SleepAnalysi
     }
 
 
-    public String peopleType(List<SleepTrackerApp> lst) {
+    public String peopleType(List<SleepTrackerRecord> lst) {
         Map<String, Integer> counts = lst.stream()
                 .filter(elim -> elim.getSleepQuality() != SleepQuality.BAD)
                 .map(elim -> getSleepType(elim.getStartSleepingSession(), elim.getEndSleepingSession()))

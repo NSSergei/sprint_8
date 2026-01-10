@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import main.SleepTrackerApp;
+import main.SleepTrackerRecord;
 import methods.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,9 +16,9 @@ public class SleepTrackerAppTest {
     void testInfo() throws IOException {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
 
-        List<SleepTrackerApp> sessions = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 15, 01)
+        List<SleepTrackerRecord> sessions = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 15, 01)
                         ,LocalDateTime.of(2025, 12, 20, 15, 01), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 15, 01)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 15, 01)
                         ,LocalDateTime.of(2025, 12, 20, 15, 01), SleepQuality.BAD));
         OutputInfo outputInfo = new OutputInfo();
         outputInfo.info(sessions);
@@ -32,9 +32,9 @@ public class SleepTrackerAppTest {
     //метод мин сессии
     @Test
     void testMinTimeSession(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 10, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 10, 00)
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 15, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 15, 00)
                         ,LocalDateTime.of(2025, 12, 20, 15, 01), SleepQuality.BAD));
         MinTimeForSession statistics = new MinTimeForSession();
         Long values = statistics.minTimeSession(session).orElse(0L);
@@ -46,9 +46,9 @@ public class SleepTrackerAppTest {
     //метод макс сессии
     @Test
     void testMaxTimeSession(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 10, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 10, 00)
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 8, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 20, 8, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.BAD));
 
         MaxTimeForSession maxTimeSession = new MaxTimeForSession();
@@ -60,9 +60,9 @@ public class SleepTrackerAppTest {
     //метод среднего значений сессий
     @Test
     void testMidlTimeSession(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 10, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 10, 00)
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.BAD));
 
         MidleTimeForSession midlTimeForSession = new MidleTimeForSession();
@@ -75,9 +75,9 @@ public class SleepTrackerAppTest {
     //метод подсчета плохих циклов сна
     @Test
     void testBadSessionCountTwo(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 10, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 10, 00)
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.BAD));
 
         BadSession badSession = new BadSession();
@@ -86,9 +86,9 @@ public class SleepTrackerAppTest {
 
     @Test
     void testBadSessionCountOne(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 10, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 10, 00)
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 20, 12, 00), SleepQuality.UNDEFINED));
 
         BadSession badSession = new BadSession();
@@ -100,9 +100,9 @@ public class SleepTrackerAppTest {
     //метод подсчета ночей
     @Test
     void testNigth(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 10, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 10, 00)
                         ,LocalDateTime.of(2025, 12, 19, 12, 00), SleepQuality.BAD),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 10, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 20, 10, 00)
                         ,LocalDateTime.of(2025, 12, 26, 12, 00), SleepQuality.UNDEFINED));
 
         NightsCount nigthsCount = new NightsCount();
@@ -119,7 +119,7 @@ public class SleepTrackerAppTest {
     // когда не было ни одной сессии сна, пересекающей интервал от 0:00 до 6:00.v (True)
     @Test
     void testOverlapsNightTrue(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 22, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 22, 00)
                 ,LocalDateTime.of(2025, 12, 20, 6, 00), SleepQuality.UNDEFINED));
         SleepQualityResult sleepQualityResult = new SleepQualityResult();
 
@@ -135,7 +135,7 @@ public class SleepTrackerAppTest {
     // когда не было ни одной сессии сна, пересекающей интервал от 0:00 до 6:00.v (False)
     @Test
     void testOverlapsNightFalse(){
-        List<SleepTrackerApp> session1 = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 18, 17, 00)
+        List<SleepTrackerRecord> session1 = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 18, 17, 00)
                 ,LocalDateTime.of(2025, 12, 18,23, 55,00), SleepQuality.UNDEFINED));
 
         SleepQualityResult sleepQualityResult = new SleepQualityResult();
@@ -152,7 +152,7 @@ public class SleepTrackerAppTest {
     //зависимости от результата метода overlapsNight
     @Test
     void testResult(){
-        List<SleepTrackerApp> session = List.of(new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 22, 00)
+        List<SleepTrackerRecord> session = List.of(new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 22, 00)
                 ,LocalDateTime.of(2025, 12, 20, 6, 00), SleepQuality.UNDEFINED));
         SleepQualityResult sleepQualityResult = new SleepQualityResult();
 
@@ -164,14 +164,14 @@ public class SleepTrackerAppTest {
     //метод определения хронотипа
     @Test
     void testSleepTypeLark (){
-        List<SleepTrackerApp> session = List.of(
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 19, 00)
+        List<SleepTrackerRecord> session = List.of(
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 19, 00)
                         ,LocalDateTime.of(2025, 12, 20, 4, 00), SleepQuality.UNDEFINED),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 22, 23, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 22, 23, 00)
                         ,LocalDateTime.of(2025, 12, 21, 6, 00), SleepQuality.UNDEFINED),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 22, 10, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 22, 10, 00)
                         ,LocalDateTime.of(2025, 12, 26, 5, 00), SleepQuality.UNDEFINED),
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 21, 10, 00)
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 21, 10, 00)
                         ,LocalDateTime.of(2025, 12, 26, 4, 00), SleepQuality.UNDEFINED));
 
         Сhronotype chronotype = new Сhronotype();
@@ -180,20 +180,20 @@ public class SleepTrackerAppTest {
     }
     @Test
     void testSleepTypeOwl (){
-        List<SleepTrackerApp> session = List.of(
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 19, 23, 30),
+        List<SleepTrackerRecord> session = List.of(
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 19, 23, 30),
                         LocalDateTime.of(2025, 12, 20, 9, 00),
                         SleepQuality.UNDEFINED),
 
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 20, 23, 15),
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 20, 23, 15),
                         LocalDateTime.of(2025, 12, 21, 9, 30),
                         SleepQuality.UNDEFINED),
 
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 22, 23, 45),
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 22, 23, 45),
                         LocalDateTime.of(2025, 12, 23, 9, 50),
                         SleepQuality.UNDEFINED),
 
-                new SleepTrackerApp(LocalDateTime.of(2025, 12, 21, 12, 0),
+                new SleepTrackerRecord(LocalDateTime.of(2025, 12, 21, 12, 0),
                         LocalDateTime.of(2025, 12, 26, 22, 0),
                         SleepQuality.UNDEFINED)
         );
