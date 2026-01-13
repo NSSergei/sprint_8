@@ -4,16 +4,18 @@ import methods.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.stream;
+
+
+
 
 
 public class SleepTrackerApp{
@@ -31,7 +33,7 @@ public class SleepTrackerApp{
         }
 
         ReadSleepSessionsFromFile readSleepSessionsFromFile = new ReadSleepSessionsFromFile();
-        List<SleepTrackerRecord> listSession = new ArrayList<>(readSleepSessionsFromFile.readSleepSessions("sleep_log.txt"));
+        List<SleepTrackerRecord> listSession = new ArrayList<>(readSleepSessionsFromFile.readSleepSessions(logFilePath));
 
         Logger.log("Начало лога");
 
